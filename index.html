@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Lab 4 | JavaScript Chat</title>
+      
+  </head>
+
+  <body>
+
+          <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+
+      <!-- Instantiate PubNub -->
+      <script type="text/javascript">
+      var pubnubDemo = new PubNub({
+      publishKey: 'pub-c-abfa5aea-d142-4a6d-a770-422be1c71413',
+      subscribeKey: 'sub-c-1e3238e8-88ce-11ea-a961-f6bfeb2ef611'
+      });
+      
+      <h1>Magnitudes</h1>
+      // Publish a simple message to the “demo_tutorial” channel pubnub:
+      pubnubDemo.publish({ message: { "color" : "blue" }, channel: 'demo_tutorial' });
+
+      // Subscribe to the demo_tutorial channel pubnub
+      pubnubDemo.addListener({
+      message: function(message){
+      console.log(message)
+      }
+      })
+
+      pubnubDemo.subscribe({
+
+      channels: ['demo_tutorial']
+
+      });
+
+      function givePermission() {
+      // Feature detect
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+          })
+          .catch(console.error);
+      } else {
+        // Handle regular non iOS 13+ devices
+        window.addEventListener('deviceorientation', handleOrientation, true);
+
+      }
+    }
+
+    function handleOrientation(event)
+    {
+      var heading = event.alpha;
+
+      if (typeof event.webkitCompassHeading !== "undefined") {
+        heading = event.webkitCompassHeading;
+      }
+
+      document.getElementById("heading").innerHTML = heading.toFixed([0]);
+    }
+      </script>
+
+
+      <input type="button" value="Ok to see orientation" onClick="givePermission();" />
+
+      <p id="heading">n/a</p>
+
+      
+      
+  </body>
+  </html>
