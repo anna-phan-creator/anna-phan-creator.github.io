@@ -4,48 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 4 | Real-Time Messaging</title>
+  
 </head>
+
 <body>
 
-<h1>Hello, hi</h1>
+  <h1>Whistle</h1>
 
-<script>
-  function givePermission() {
-    // feature detect
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      DeviceOrientationEvent.requestPermission()
-        .then(permissionState => {
-          if (permissionState === 'granted') {
-            window.addEventListener('deviceorientation', handleOrientation, true);
-          }
-        })
-        .catch(console.error);
-    } else {
-      // handle regular non iOS 13+ devices
-      window.addEventListener('deviceorientation', handleOrientation, true);
+  <input type="button" value="Ok to see orientation" onClick="givePermission();" />
 
+  <p id="heading">n/a</p>
+
+  <script>
+    
+    function givePermission() {
+      // Feature detect
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+          })
+          .catch(console.error);
+      } else {
+        // handle regular non iOS 13+ devices
+        window.addEventListener('deviceorientation', handleOrientation, true);
+
+      }
     }
-  }
 
-  function handleOrientation(event)
-  {
-    var heading = event.alpha;
+    function handleOrientation(event)
+    {
+      var heading = event.alpha;
 
-    if (typeof event.webkitCompassHeading !== "undefined") {
-       heading = event.webkitCompassHeading;
-     }
+      if (typeof event.webkitCompassHeading !== "undefined") {
+        heading = event.webkitCompassHeading;
+      }
 
-    document.getElementById("heading").innerHTML = heading.toFixed([0]);
-  }
-  
+      document.getElementById("heading").innerHTML = heading.toFixed([0]);
+    }
+    
 
-
-</script>
-
-<input type="button" value="Ok to see orientation" onClick="givePermission();" />
-
-<p id="heading">n/a</p>
-
+  </script>
 
 </body>
 </html>
