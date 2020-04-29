@@ -1,79 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 4 | Real-Time Messaging</title>
 
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
-    
-        <!-- Instantiate PubNub -->
-        <script type="text/javascript">
-          var pubnubDemo = new PubNub({
-          publishKey: 'pub-c-abfa5aea-d142-4a6d-a770-422be1c71413',
-          subscribeKey: 'sub-c-1e3238e8-88ce-11ea-a961-f6bfeb2ef611'
-          });
-          </script>
-    
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4 | Real-Time Messaging</title>
 
-  <body>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
 
-    <h1>Whistle</h1>
+  <!-- Instantiate PubNub -->
+  <script type="text/javascript">
+    var pubnubDemo = new PubNub({
+      publishKey: 'pub-c-abfa5aea-d142-4a6d-a770-422be1c71413',
+      subscribeKey: 'sub-c-1e3238e8-88ce-11ea-a961-f6bfeb2ef611'
+    });
+  </script>
 
-    <input type="button" value="Ok to see orientation" onClick="givePermission();" />
+</head>
 
-    <p id="heading">n/a</p>
+<body>
 
-    <script>
-      
-      function givePermission() {
-        // Feature detect
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          DeviceOrientationEvent.requestPermission()
-            .then(permissionState => {
-              if (permissionState === 'granted') {
-                window.addEventListener('deviceorientation', handleOrientation, true);
-              }
-            })
-            .catch(console.error);
-        } else {
-          // handle regular non iOS 13+ devices
-          window.addEventListener('deviceorientation', handleOrientation, true);
+  <h1>Whistle</h1>
 
+  <input type="button" value="Ok to see orientation" onClick="givePermission();" />
+
+  <p id="heading">n/a</p>
+
+  <script>
+
+    function givePermission() {
+      // Feature detect
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+          })
+          .catch(console.error);
+      } else {
+        // handle regular non iOS 13+ devices
+        window.addEventListener('deviceorientation', handleOrientation, true);
+
+      }
+    }
+
+    function handleOrientation(event) {
+      var heading = event.alpha;
+
+      if (typeof event.webkitCompassHeading !== "undefined") {
+        heading = event.webkitCompassHeading;
+      }
+
+      document.getElementById("heading").innerHTML = heading.toFixed([0]);
+    }
+
+    // // Publish a simple message to the “demo_tutorial” channel pubnub:
+    // pubnubDemo.publish({ message: { "color" : "blue" }, channel: 'demo_tutorial' });
+
+    // // Subscribe to the demo_tutorial channel pubnub
+    // pubnubDemo.addListener({
+    // message: function(message){
+    // console.log(message)
+    // }
+    // })
+
+    // pubnubDemo.subscribe({
+
+    // channels: ['demo_tutorial']
+
+    // });
+
+    (function () {
+      var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
+      var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+      pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
+      pubnub.addListener({
+        message: function (m) {
+          box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
         }
-      }
-
-      function handleOrientation(event)
-      {
-        var heading = event.alpha;
-
-        if (typeof event.webkitCompassHeading !== "undefined") {
-          heading = event.webkitCompassHeading;
-        }
-
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-      }
-      
-      // Publish a simple message to the “demo_tutorial” channel pubnub:
-      pubnubDemo.publish({ message: { "color" : "blue" }, channel: 'demo_tutorial' });
-
-      // Subscribe to the demo_tutorial channel pubnub
-      pubnubDemo.addListener({
-      message: function(message){
-      console.log(message)
-      }
-      })
-
-      pubnubDemo.subscribe({
-
-      channels: ['demo_tutorial']
-
       });
-      
-    </script>
-      
+      input.addEventListener('keypress', function (e) {
+        (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
+          channel: channel, message: input.value, x: (input.value = '')
+        });
+      });
+    })();
+
+  </script>
+
 </body>
+
 </html>
-
-
