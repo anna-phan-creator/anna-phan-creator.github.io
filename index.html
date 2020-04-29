@@ -84,14 +84,14 @@
           pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           pubnub.addListener({
             message: function (m) {
-              handleOrientation();
-              state = heading.toFixed([0]);
-              box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
+            box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
             }
+          handleOrientation()
+          state = heading.toFixed([0]);
           });
           input.addEventListener('keypress', function (e) {
             handleOrientation()
-            if (heading.toFixed([0]) == state){ 
+            while (heading.toFixed([0]) == state){ 
             (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
               channel: channel, message: input.value, x: (input.value = '')
             });
