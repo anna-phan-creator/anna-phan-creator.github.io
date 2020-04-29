@@ -76,7 +76,7 @@
         // channels: ['demo_tutorial']
 
         // });
-
+        var state;
         (function () {
           var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
           var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
@@ -84,16 +84,19 @@
           pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           pubnub.addListener({
             message: function (m) {
-              if (document.getElementById("heading").innerHTML == heading.toFixed([0])){
+              handleOrientation();
+              state = heading.toFixed([0]);
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
-            }}
+            }
           });
           input.addEventListener('keypress', function (e) {
+            handleOrientation()
+            if (heading.toFixed([0]) == state){ 
             (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
               channel: channel, message: input.value, x: (input.value = '')
             });
-          });
-        })();
+          }});
+        });
 
       </script>
 
