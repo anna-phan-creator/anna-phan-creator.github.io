@@ -76,8 +76,7 @@
         // channels: ['demo_tutorial']
 
         // });
-
-        (function () {
+        function sendMessage(){
           var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
           var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
           pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
@@ -90,8 +89,8 @@
             (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
               channel: channel, message: input.value, x: (input.value = '')
             });
-          });
-        })();
+          }); 
+      };
 
       </script>
 
