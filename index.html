@@ -86,8 +86,7 @@
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
             }
           });
-          input.addEventListener('keypress', channelHandler()
-          ); 
+          input.addEventListener('keypress', channelHandler(), true); 
         };
 
         function channelHandler(event){
