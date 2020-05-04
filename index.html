@@ -86,13 +86,13 @@
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
             }
           });
-          input.addEventListener('keypress', channelHandler(), true); 
+          input.addEventListener('keypress', channelHandler, true); 
           function channelHandler(event){
-          (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
-              channel: channel, message: input.value, x: (input.value = '')
-            });
+            (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
+                channel: channel, message: input.value, x: (input.value = '')
+              });
+            };
           };
-        };
 
       </script>
 
