@@ -30,7 +30,7 @@
   <p>Enter chat and press enter.</p>
   <input id="input" placeholder="Your Message Here" />
   <p>Chat Output:<p>
-  <div id="box"></div>
+      <div id="box"></div>
 
       <script>
 
@@ -50,9 +50,9 @@
 
           }
         }
-        var heading;
+
         function handleOrientation(event) {
-          heading = event.alpha;
+          var heading = event.alpha;
 
           if (typeof event.webkitCompassHeading !== "undefined") {
             heading = event.webkitCompassHeading;
@@ -77,65 +77,21 @@
 
         // });
 
-        // Creating channels
-        
-        var channels;
-        function channelHandler(){
-          pubnub.channelGroups.addChannels({
-            channels: ['north', 'east', 'south', 'west'],
-            channelGroup: "myChannelGroup"}, 
-            function(status) {
-              if (status.error) {
-                  console.log("operation failed w/ status: ", status);
-              } 
-              else {
-                  console.log("operation done!")
-              }
-            })
-          handleOrientation();
-
-          if (heading.toFixed([0]) >= 0 && heading.toFixed([0]) <= 90){
-            channels: ['north'];
-            sendMessage(channels);
-          }
-          else if (heading.toFixed([0]) >= 91 && heading.toFixed([0]) <= 180){
-            channels: ['east'];
-            sendMessage(channels);
-          }
-
-          else if (heading.toFixed([0]) >= 181 && heading.toFixed([0]) <= 270){
-            channels: ['south'];
-            sendMessage(channels);
-          }
-
-          else if (heading.toFixed([0]) >= 271 && heading.toFixed([0]) <= 360){
-            channels: ['west'];
-            sendMessage(channels);
-          }
-          else{
-            channels: ['west'];// Some error handling
-            sendMessage(channels);
-
+        (function () {
+          var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
+          var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+          pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
+          pubnub.addListener({
+            message: function (m) {
+              box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
             }
-            
-          function sendMessage(){
-            channelHandler();
-            var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
-            var box = document.getElementById("box"), input = document.getElementById("input"); //, channel = 'chat'
-            pubnub.subscribe({ channels: channels }); // Subscribe to a channel.
-            pubnub.addListener({
-                message: function (m) {
-                  box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
-                }
-              });
-            input.addEventListener('keypress', function (e) {
-              (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
-                channel: channel, message: input.value, x: (input.value = '')
-              });
+          });
+          input.addEventListener('keypress', function (e) {
+            (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
+              channel: channel, message: input.value, x: (input.value = '')
             });
-
-          channelHandler();
-          }
+          });
+        })();
 
       </script>
 
