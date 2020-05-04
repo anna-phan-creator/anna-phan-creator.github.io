@@ -87,14 +87,13 @@
             }
           });
           input.addEventListener('keypress', channelHandler(), true); 
-        };
-
-        function channelHandler(event){
-          var channel = 'chat';
+          function channelHandler(event){
           (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
               channel: channel, message: input.value, x: (input.value = '')
             });
           };
+        };
+
       </script>
 
 </body>
