@@ -92,7 +92,7 @@
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
             }
           });
-          input.addEventListener('keypress', channelHandler, true)
+          input.addEventListener('keypress', channelHandler())
 
           /*input.addEventListener('keypress', function (e) {
               (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
