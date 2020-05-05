@@ -118,18 +118,18 @@
             });
 
             if (heading.toFixed([0]) >= 0 && heading.toFixed([0]) <= 90){
-              channel: ['north'];
+              channel = 'north';
             }
             else if (heading.toFixed([0]) >= 91 && heading.toFixed([0]) <= 180){
-              channel: ['east'];
+              channel = 'east';
             }
 
             else if (heading.toFixed([0]) >= 181 && heading.toFixed([0]) <= 270){
-              channel: ['south'];
+              channel = 'south';
             }
 
             else {
-              channel: ['west'];
+              channel = 'west';
             }
 
           pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
