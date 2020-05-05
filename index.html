@@ -51,8 +51,9 @@
           }
         }
 
+        var heading;
         function handleOrientation(event) {
-          var heading = event.alpha;
+          heading = event.alpha;
 
           if (typeof event.webkitCompassHeading !== "undefined") {
             heading = event.webkitCompassHeading;
@@ -103,8 +104,24 @@
           box = box;
           input = input;
           channel = channel;
-         // pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
-          //box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+          heading = heading;
+
+          if (heading.toFixed([0]) >= 0 && heading.toFixed([0]) <= 90){
+              channel: ['north'];
+            }
+            else if (heading.toFixed([0]) >= 91 && heading.toFixed([0]) <= 180){
+              channel: ['east'];
+            }
+
+            else if (heading.toFixed([0]) >= 181 && heading.toFixed([0]) <= 270){
+              channel: ['south'];
+            }
+
+            else {
+              channels: ['west'];
+            }
+
+
           (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
                 channel: channel, message: input.value, x: (input.value = '')
               });
