@@ -82,9 +82,9 @@
 
         function sendMessage(){
           pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
-          box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+          box = document.getElementById("box"), input = document.getElementById("input") //, channel = 'chat';
 
-          pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
+         // pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           pubnub.addListener({
             message: function (m) {
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
@@ -132,7 +132,7 @@
               channel: ['west'];
             }
 
-
+          pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
                 channel: channel, message: input.value, x: (input.value = '')
               });
