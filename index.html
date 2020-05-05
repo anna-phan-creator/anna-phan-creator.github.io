@@ -103,7 +103,6 @@
           pubnub = pubnub;
           box = box;
           input = input;
-          channel = channel;
           heading = heading;
 
           pubnub.channelGroups.addChannels({
@@ -118,7 +117,7 @@
               }
             });
 
-          if (heading.toFixed([0]) >= 0 && heading.toFixed([0]) <= 90){
+            if (heading.toFixed([0]) >= 0 && heading.toFixed([0]) <= 90){
               channel: ['north'];
             }
             else if (heading.toFixed([0]) >= 91 && heading.toFixed([0]) <= 180){
@@ -130,7 +129,7 @@
             }
 
             else {
-              channels: ['west'];
+              channel: ['west'];
             }
 
 
