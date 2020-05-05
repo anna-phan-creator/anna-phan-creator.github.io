@@ -45,7 +45,7 @@
               })
               .catch(console.error);
           } else {
-            // handle regular non iOS 13+ devices
+            // Handle regular non iOS 13+ devices
             window.addEventListener('deviceorientation', handleOrientation, true);
 
           }
@@ -62,21 +62,6 @@
           document.getElementById("heading").innerHTML = heading.toFixed([0]);
         }
 
-        // // Publish a simple message to the “demo_tutorial” channel pubnub:
-        // pubnubDemo.publish({ message: { "color" : "blue" }, channel: 'demo_tutorial' });
-
-        // // Subscribe to the demo_tutorial channel pubnub
-        // pubnubDemo.addListener({
-        // message: function(message){
-        // console.log(message)
-        // }
-        // })
-
-        // pubnubDemo.subscribe({
-
-        // channels: ['demo_tutorial']
-
-        // });
         sendMessage();
         var pubnub, box, input, channel;
 
@@ -84,7 +69,6 @@
           pubnub = new PubNub({ publishKey: 'pub-c-f6d82fae-b1c2-4444-b812-e53e3b91b623', subscribeKey: 'sub-c-38431b00-88cc-11ea-885f-2621b2dc68c7' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
           box = document.getElementById("box"), input = document.getElementById("input") //, channel = 'chat';
 
-         // pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           pubnub.addListener({
             message: function (m) {
               box.innerHTML = ('' + m.message).replace(/[<>]/g, '') + '<br>' + box.innerHTML; // Add message to page.
@@ -92,11 +76,6 @@
           });
           input.addEventListener('keypress', channelHandler, true)
 
-          /*input.addEventListener('keypress', function (e) {
-              (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
-                channel: channel, message: input.value, x: (input.value = '')
-              })
-            });*/
           };
 
         function channelHandler(event){
@@ -135,8 +114,8 @@
           pubnub.subscribe({ channels: [channel] }); // Subscribe to a channel.
           (event.keyCode || event.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed. 
                 channel: channel, message: input.value, x: (input.value = '')
-              });
-        }
+            });
+          }
         
 
       </script>
