@@ -77,12 +77,11 @@
 
         // });
         sendMessage();
-        var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
-        var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+        var pubnub, box, input, channel;
 
         function sendMessage(){
-          var pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
-          var box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
+          pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' }); // Your PubNub keys here. Get them from https://dashboard.pubnub.com.
+          box = document.getElementById("box"), input = document.getElementById("input"), channel = 'chat';
           /*pubnub = pubnub;
           box = box;
           input = input;
